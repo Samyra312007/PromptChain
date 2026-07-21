@@ -1,0 +1,7 @@
+{
+  "name": "promptchain-sdk",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}

@@ -1,0 +1,50 @@
+# --- Rust / Cargo ---
+program/target/
+**/*.rs.bk
+
+# --- Anchor ---
+program/target/deploy/*.json
+program/target/idl/
+program/target/types/
+!program/target/deploy/promptchain.so
+
+# --- Node / npm / pnpm ---
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- TypeScript build ---
+sdk/packages/*/dist/
+*.tsbuildinfo
+
+# --- Environment ---
+.env
+.env.local
+.env.*.local
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# --- IDE ---
+.idea/
+.vscode/
+*.sublime-workspace
+
+# --- Solana ---
+**/id.json
+**/id.json.tmp
+validator-ledger/
+test-validator/
+
+# --- Misc ---
+*.log
+out/
+
+# Planning doc (internal design doc, not part of public API)
+planning.md
