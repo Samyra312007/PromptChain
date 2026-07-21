@@ -8,7 +8,7 @@ use crate::state::*;
 pub struct CreateVersion<'info> {
     #[account(
         mut,
-        seeds = [b"prompt", prompt.authority.as_ref(), prompt.ipfs_cid.as_bytes()],
+        seeds = [b"prompt", &hash_cid(&prompt.ipfs_cid)[..]],
         bump = prompt.bump,
     )]
     pub prompt: Account<'info, Prompt>,

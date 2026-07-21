@@ -8,7 +8,7 @@ use crate::state::*;
 pub struct Publish<'info> {
     #[account(
         init,
-        seeds = [b"prompt", authority.key().as_ref(), cid.as_bytes()],
+        seeds = [b"prompt", &hash_cid(&cid)[..]],
         bump,
         payer = authority,
         space = Prompt::LEN,
@@ -35,6 +35,7 @@ pub fn handle_publish(
 
     let prompt = &mut ctx.accounts.prompt;
     prompt.authority = ctx.accounts.authority.key();
+    prompt.original_authority = ctx.accounts.authority.key();
     prompt.ipfs_cid = cid;
     prompt.metadata_uri = metadata_uri;
     prompt.license = license.unwrap_or(Pubkey::default());

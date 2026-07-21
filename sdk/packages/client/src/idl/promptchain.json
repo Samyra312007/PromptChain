@@ -22,32 +22,7 @@
       "accounts": [
         {
           "name": "prompt",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  112,
-                  114,
-                  111,
-                  109,
-                  112,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "prompt.authority",
-                "account": "Prompt"
-              },
-              {
-                "kind": "account",
-                "path": "prompt.ipfs_cid",
-                "account": "Prompt"
-              }
-            ]
-          }
+          "writable": true
         },
         {
           "name": "version",
@@ -118,30 +93,7 @@
       "accounts": [
         {
           "name": "prompt",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  112,
-                  114,
-                  111,
-                  109,
-                  112,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "authority"
-              },
-              {
-                "kind": "arg",
-                "path": "cid"
-              }
-            ]
-          }
+          "writable": true
         },
         {
           "name": "authority",
@@ -255,32 +207,7 @@
       "accounts": [
         {
           "name": "prompt",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  112,
-                  114,
-                  111,
-                  109,
-                  112,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "prompt.authority",
-                "account": "Prompt"
-              },
-              {
-                "kind": "account",
-                "path": "prompt.ipfs_cid",
-                "account": "Prompt"
-              }
-            ]
-          }
+          "writable": true
         },
         {
           "name": "current_authority",
@@ -309,61 +236,11 @@
       "accounts": [
         {
           "name": "prompt",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  112,
-                  114,
-                  111,
-                  109,
-                  112,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "prompt.authority",
-                "account": "Prompt"
-              },
-              {
-                "kind": "account",
-                "path": "prompt.ipfs_cid",
-                "account": "Prompt"
-              }
-            ]
-          }
+          "writable": true
         },
         {
           "name": "license",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  99,
-                  101,
-                  110,
-                  115,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "license.authority",
-                "account": "License"
-              },
-              {
-                "kind": "account",
-                "path": "license.name",
-                "account": "License"
-              }
-            ]
-          }
+          "optional": true
         },
         {
           "name": "payer",
@@ -483,6 +360,16 @@
       "code": 6010,
       "name": "SameAuthority",
       "msg": "New authority must be different from current authority"
+    },
+    {
+      "code": 6011,
+      "name": "EmptyName",
+      "msg": "License name cannot be empty"
+    },
+    {
+      "code": 6012,
+      "name": "RoyaltyTooHigh",
+      "msg": "Royalty basis points exceeds maximum allowed (10000)"
     }
   ],
   "types": [
@@ -525,6 +412,10 @@
         "fields": [
           {
             "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "original_authority",
             "type": "pubkey"
           },
           {

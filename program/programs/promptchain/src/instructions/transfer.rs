@@ -7,7 +7,7 @@ use crate::state::Prompt;
 pub struct Transfer<'info> {
     #[account(
         mut,
-        seeds = [b"prompt", prompt.authority.as_ref(), prompt.ipfs_cid.as_bytes()],
+        seeds = [b"prompt", &crate::state::prompt::hash_cid(&prompt.ipfs_cid)[..]],
         bump = prompt.bump,
     )]
     pub prompt: Account<'info, Prompt>,

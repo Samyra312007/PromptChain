@@ -26,3 +26,22 @@ impl PromptVersion {
         + 4 + MAX_CHANGELOG_LENGTH
         + 1;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_version_len() {
+        assert!(PromptVersion::LEN > 0);
+        assert_eq!(
+            PromptVersion::LEN,
+            8 + 32 + 4 + 32 + 4 + MAX_CID_LENGTH + 4 + MAX_URI_LENGTH + 4 + MAX_CHANGELOG_LENGTH + 1
+        );
+    }
+
+    #[test]
+    fn test_max_changelog_length() {
+        assert_eq!(MAX_CHANGELOG_LENGTH, 500);
+    }
+}

@@ -717,6 +717,8 @@ name = "promptchain"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
+ "solana-hash",
+ "solana-sha256-hasher",
 ]
 
 [[package]]

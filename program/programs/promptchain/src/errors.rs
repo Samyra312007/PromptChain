@@ -24,4 +24,8 @@ pub enum PromptChainError {
     EmptyMetadataUri,
     #[msg("New authority must be different from current authority")]
     SameAuthority,
+    #[msg("License name cannot be empty")]
+    EmptyName,
+    #[msg("Royalty basis points exceeds maximum allowed (10000)")]
+    RoyaltyTooHigh,
 }

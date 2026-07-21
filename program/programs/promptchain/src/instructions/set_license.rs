@@ -26,14 +26,14 @@ pub fn handle_set_license(
     attribution_required: bool,
     royalty_basis_points: u16,
 ) -> Result<()> {
-    require!(!name.is_empty(), PromptChainError::LicenseNameTooLong);
+    require!(!name.is_empty(), PromptChainError::EmptyName);
     require!(
         name.len() <= MAX_NAME_LENGTH,
         PromptChainError::LicenseNameTooLong,
     );
     require!(
         royalty_basis_points <= MAX_ROYALTY_BASIS_POINTS,
-        PromptChainError::ArithmeticOverflow,
+        PromptChainError::RoyaltyTooHigh,
     );
 
     let license = &mut ctx.accounts.license;

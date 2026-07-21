@@ -4,18 +4,32 @@ import {
   TransactionSignature,
 } from "@solana/web3.js";
 import { Program, AnchorProvider, BN } from "@coral-xyz/anchor";
+import { createHash } from "crypto";
 import { PROMPTCHAIN_PROGRAM_ID, PDA_SEEDS } from "@promptchain/schema";
 
 import idl from "./idl/promptchain.json";
 
 export interface PromptAccount {
   authority: PublicKey;
+  originalAuthority: PublicKey;
   ipfsCid: string;
   metadataUri: string;
   license: PublicKey;
   totalVersions: number;
   totalUses: BN;
   bump: number;
+}
+
+export interface PromptAccountRaw {
+  authority: PublicKey;
+  originalAuthority: PublicKey;
+  ipfsCid: string;
+  metadataUri: string;
+  license: PublicKey;
+  totalVersions: number;
+  totalUses: BN;
+  bump: number;
+  original_authority: PublicKey;
 }
 
 export interface PromptVersionAccount {
@@ -68,15 +82,16 @@ export type TransferParams = {
 
 export type UsePromptParams = {
   prompt: PublicKey;
-  license: PublicKey;
+  license?: PublicKey;
   licenseAuthority: PublicKey;
   payer: PublicKey;
   maxRoyaltyPayment: BN;
 };
 
 export function findPromptPda(authority: PublicKey, cid: string): [PublicKey, number] {
+  const cidHash = createHash("sha256").update(cid, "utf8").digest();
   return PublicKey.findProgramAddressSync(
-    [PDA_SEEDS.PROMPT, authority.toBuffer(), Buffer.from(cid)],
+    [PDA_SEEDS.PROMPT, cidHash],
     new PublicKey(PROMPTCHAIN_PROGRAM_ID),
   );
 }
@@ -166,15 +181,18 @@ export class PromptChainClient {
   }
 
   async usePrompt(params: UsePromptParams): Promise<TransactionSignature> {
+    const accounts: Record<string, PublicKey> = {
+      prompt: params.prompt,
+      payer: params.payer,
+      licenseAuthority: params.licenseAuthority,
+      systemProgram: SystemProgram.programId,
+    };
+    if (params.license) {
+      accounts.license = params.license;
+    }
     return this.program.methods
       .usePrompt(params.maxRoyaltyPayment)
-      .accounts({
-        prompt: params.prompt,
-        license: params.license,
-        payer: params.payer,
-        licenseAuthority: params.licenseAuthority,
-        systemProgram: SystemProgram.programId,
-      })
+      .accounts(accounts)
       .rpc();
   }
 
