@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@promptchain/client": "^0.1.0",
+    "@promptchain/network": "^0.1.0",
     "@promptchain/schema": "^0.1.0",
     "@promptchain/storage": "^0.1.0",
     "@promptchain/token-economics": "^0.1.0",

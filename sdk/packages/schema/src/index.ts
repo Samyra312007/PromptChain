@@ -106,3 +106,30 @@ export const RLHF_CONSTANTS = {
   DEFAULT_REWARD_PER_PREFERENCE: 1_000_000_000,
   MAX_PREFERENCES_PER_SESSION: 10_000,
 } as const;
+
+export const NETWORK_CONSTANTS = {
+  DEFAULT_PORT: 9000,
+  DEFAULT_HOST: '0.0.0.0',
+  DEFAULT_MAX_PEERS: 50,
+  DEFAULT_DISCOVERY_INTERVAL_MS: 30_000,
+  GOSSIP_FANOUT: 6,
+  DHT_REPLICATION: 3,
+  DHT_TTL_MS: 300_000,
+  MAX_MESSAGE_SIZE: 1_048_576,
+  DEFAULT_OFFLINE_MAX_RETRIES: 5,
+  BANDWIDTH_WINDOW_MS: 1000,
+  LEECH_RATIO_THRESHOLD: 0.1,
+  MAX_GOSSIP_PEERS: 10,
+  PEER_TIMEOUT_MS: 30_000,
+  DEFAULT_STUN_SERVERS: [
+    'stun:stun.l.google.com:19302',
+    'stun:stun1.l.google.com:19302',
+  ],
+  DEFAULT_TURN_SERVERS: [],
+} as const;
+
+export const PDA_SEEDS_NETWORK = {
+  PEER: Buffer.from('peer'),
+  NODE: Buffer.from('node'),
+  DISCOVERY: Buffer.from('discovery'),
+} as const;

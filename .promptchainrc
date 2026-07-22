@@ -24,5 +24,26 @@
       "language": "en",
       "task_description": ""
     }
+  },
+  "network": {
+    "enabled": true,
+    "port": 9000,
+    "host": "0.0.0.0",
+    "max_peers": 50,
+    "discovery_interval_ms": 30000,
+    "bootstrap_peers": [],
+    "dht_enabled": true,
+    "gossip_enabled": true,
+    "bandwidth_accounting": true,
+    "offline_queue_enabled": true,
+    "offline_queue_max_retries": 5,
+    "nat_traversal": {
+      "enabled": false,
+      "stun_servers": [
+        "stun:stun.l.google.com:19302",
+        "stun:stun1.l.google.com:19302"
+      ],
+      "turn_servers": []
+    }
   }
 }

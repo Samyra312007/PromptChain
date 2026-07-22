@@ -37,6 +37,16 @@ import {
 import { registerCompileCommand } from "./commands/compile";
 import { registerProveCommand } from "./commands/prove";
 import { registerFeedbackCommand } from "./commands/feedback";
+import {
+  nodeStartCommand,
+  nodeStopCommand,
+  nodeStatusCommand,
+  nodePeersCommand,
+  nodePublishCommand,
+  nodeStoreCommand,
+  nodeFindCommand,
+  nodeConnectCommand,
+} from "./commands/network";
 
 const program = new Command();
 
@@ -331,6 +341,62 @@ program
     }
     process.exit(0);
   });
+
+const nodeCommand = program
+  .command("node")
+  .description("P2P networking node management (Layer 7)");
+
+nodeCommand
+  .command("start")
+  .description("Start a P2P node")
+  .option("--port <port>", "Listen port", "9000")
+  .option("--host <host>", "Listen host", "0.0.0.0")
+  .option("--max-peers <n>", "Maximum peers", "50")
+  .option("--bootstrap <addrs>", "Comma-separated bootstrap peer multiaddrs")
+  .option("-u, --rpc-url <url>", "Solana RPC URL for on-chain registry")
+  .option("--daemon", "Run in daemon mode", false)
+  .action(nodeStartCommand);
+
+nodeCommand
+  .command("stop")
+  .description("Stop the running P2P node")
+  .action(nodeStopCommand);
+
+nodeCommand
+  .command("status")
+  .description("Show node status")
+  .action(nodeStatusCommand);
+
+nodeCommand
+  .command("peers")
+  .description("List connected and known peers")
+  .action(nodePeersCommand);
+
+nodeCommand
+  .command("publish")
+  .description("Publish a message on a gossip topic")
+  .argument("<topic>", "Gossip topic")
+  .argument("<data>", "Message data")
+  .action(nodePublishCommand);
+
+nodeCommand
+  .command("store")
+  .description("Store a value in the DHT")
+  .argument("<key>", "DHT key")
+  .argument("<value>", "DHT value")
+  .action(nodeStoreCommand);
+
+nodeCommand
+  .command("find")
+  .description("Find a value in the DHT")
+  .argument("<key>", "DHT key")
+  .action(nodeFindCommand);
+
+nodeCommand
+  .command("connect")
+  .description("Connect to a peer by multiaddr")
+  .argument("<addr>", "Peer multiaddr (e.g. /ip4/1.2.3.4/tcp/9000)")
+  .action(nodeConnectCommand);
 
 registerCompileCommand(program);
 registerProveCommand(program);

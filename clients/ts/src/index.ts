@@ -385,6 +385,43 @@ export class FullClient {
     const client = new RlhfClient(this.provider);
     return client.finalizeSession(sessionId);
   }
+
+  async startP2PNode(options?: {
+    port?: number;
+    host?: string;
+    maxPeers?: number;
+    bootstrapPeers?: string[];
+  }): Promise<any> {
+    const { P2PNode } = await import('@promptchain/network');
+    const node = new P2PNode({
+      port: options?.port || 9000,
+      host: options?.host || '127.0.0.1',
+      maxPeers: options?.maxPeers || 50,
+      bootstrapPeers: options?.bootstrapPeers,
+    });
+    await node.start();
+    return node;
+  }
+
+  async connectToPeer(node: any, addr: string): Promise<boolean> {
+    return node.dial(addr);
+  }
+
+  async gossipPublish(node: any, topic: string, data: string): Promise<void> {
+    return node.publish(topic, data);
+  }
+
+  async dhtStore(node: any, key: string, value: string): Promise<void> {
+    return node.storeDHT(key, value);
+  }
+
+  async dhtFind(node: any, key: string): Promise<any> {
+    return node.findDHT(key);
+  }
+
+  async getNodeStatus(node: any): Promise<any> {
+    return node.getStatus();
+  }
 }
 
 function joinPath(...parts: string[]): string {
