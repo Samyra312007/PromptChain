@@ -1,0 +1,227 @@
+{
+  "address": "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK",
+  "metadata": {
+    "name": "promptchain_curation",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "PromptChain Curation Engine"
+  },
+  "instructions": [
+    {
+      "name": "initCurator",
+      "discriminator": [42, 177, 211, 188, 155, 176, 177, 85],
+      "accounts": [
+        { "name": "curator", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "stakeAmount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "initReputation",
+      "discriminator": [112, 33, 185, 14, 176, 109, 183, 245],
+      "accounts": [
+        { "name": "reputation", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "submitRating",
+      "discriminator": [215, 163, 35, 191, 71, 169, 244, 137],
+      "accounts": [
+        { "name": "curator", "writable": true, "signer": false },
+        { "name": "rating", "writable": true, "signer": false },
+        { "name": "promptCuration", "writable": true, "signer": false },
+        { "name": "prompt", "writable": false, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "ratingValue", "type": "u8" },
+        { "name": "reviewUri", "type": "string" }
+      ]
+    },
+    {
+      "name": "addStake",
+      "discriminator": [175, 192, 94, 218, 170, 112, 55, 162],
+      "accounts": [
+        { "name": "curator", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "additionalStake", "type": "u64" }
+      ]
+    },
+    {
+      "name": "withdrawStake",
+      "discriminator": [174, 135, 125, 49, 34, 242, 98, 100],
+      "accounts": [
+        { "name": "curator", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "withdrawAmount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "resolveSlashing",
+      "discriminator": [198, 152, 112, 87, 205, 83, 48, 35],
+      "accounts": [
+        { "name": "curator", "writable": true, "signer": false },
+        { "name": "promptCuration", "writable": true, "signer": false },
+        { "name": "prompt", "writable": false, "signer": false },
+        { "name": "slashedAuthority", "writable": false, "signer": false },
+        { "name": "accurateCurator", "writable": true, "signer": false },
+        { "name": "resolver", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "ratingValue", "type": "u8" },
+        { "name": "consensusBp", "type": "u64" }
+      ]
+    },
+    {
+      "name": "updateReputation",
+      "discriminator": [162, 45, 208, 58, 8, 168, 124, 191],
+      "accounts": [
+        { "name": "reputation", "writable": true, "signer": false },
+        { "name": "curator", "writable": false, "signer": false },
+        { "name": "authority", "writable": false, "signer": true }
+      ],
+      "args": [
+        { "name": "promptsPublished", "type": "u64" },
+        { "name": "totalRatingFromPromptsBp", "type": "u64" },
+        { "name": "curationsPerformed", "type": "u64" },
+        { "name": "curationAccuracyBp", "type": "u64" },
+        { "name": "consistencyBp", "type": "u64" }
+      ]
+    },
+    {
+      "name": "commitIndex",
+      "discriminator": [168, 127, 232, 194, 111, 213, 172, 162],
+      "accounts": [
+        { "name": "indexCommitment", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "systemProgram", "writable": false, "signer": false }
+      ],
+      "args": [
+        { "name": "epoch", "type": "u64" },
+        { "name": "merkleRoot", "type": { "array": ["u8", 32] } },
+        { "name": "numDocuments", "type": "u64" }
+      ]
+    },
+    {
+      "name": "refreshCuration",
+      "discriminator": [112, 67, 113, 225, 88, 107, 98, 226],
+      "accounts": [
+        { "name": "promptCuration", "writable": true, "signer": false },
+        { "name": "prompt", "writable": false, "signer": false }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Curator",
+      "discriminator": [52, 139, 209, 2, 57, 220, 238, 98],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "stakeAmount", "type": "u64" },
+          { "name": "totalRatings", "type": "u64" },
+          { "name": "accuracyScoreBp", "type": "u64" },
+          { "name": "lastRatingSlot", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Rating",
+      "discriminator": [198, 241, 252, 1, 49, 79, 102, 226],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "curator", "type": "publicKey" },
+          { "name": "prompt", "type": "publicKey" },
+          { "name": "ratingValue", "type": "u8" },
+          { "name": "reviewUri", "type": "string" },
+          { "name": "submittedSlot", "type": "u64" },
+          { "name": "curatorStakeAtSubmission", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "PromptCuration",
+      "discriminator": [117, 167, 64, 224, 11, 181, 169, 252],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "prompt", "type": "publicKey" },
+          { "name": "totalRatings", "type": "u64" },
+          { "name": "weightedSum", "type": "u128" },
+          { "name": "totalWeight", "type": "u128" },
+          { "name": "averageRatingBp", "type": "u64" },
+          { "name": "lastUpdatedSlot", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "UserReputation",
+      "discriminator": [192, 218, 58, 115, 58, 60, 18, 224],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "promptsPublished", "type": "u64" },
+          { "name": "totalRatingFromPromptsBp", "type": "u64" },
+          { "name": "curationsPerformed", "type": "u64" },
+          { "name": "curationAccuracyBp", "type": "u64" },
+          { "name": "consistencyBp", "type": "u64" },
+          { "name": "overallScoreBp", "type": "u64" },
+          { "name": "lastUpdatedSlot", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "IndexCommitment",
+      "discriminator": [107, 192, 7, 229, 129, 216, 119, 216],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "epoch", "type": "u64" },
+          { "name": "merkleRoot", "type": { "array": ["u8", 32] } },
+          { "name": "numDocuments", "type": "u64" },
+          { "name": "lastCommittedSlot", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "InsufficientStake", "msg": "Insufficient stake amount (minimum 1 SOL)" },
+    { "code": 6001, "name": "InvalidRatingValue", "msg": "Rating value must be between 1 and 5" },
+    { "code": 6002, "name": "ReviewUriTooLong", "msg": "Review URI exceeds maximum length" },
+    { "code": 6003, "name": "CuratorNotFound", "msg": "Curator not found" },
+    { "code": 6004, "name": "PromptCurationNotFound", "msg": "Prompt curation not found" },
+    { "code": 6005, "name": "ArithmeticOverflow", "msg": "Arithmetic overflow occurred" },
+    { "code": 6006, "name": "AlreadyRated", "msg": "Already rated this prompt" },
+    { "code": 6007, "name": "InsufficientStakeToWithdraw", "msg": "Insufficient stake to withdraw" },
+    { "code": 6008, "name": "UnauthorizedCurator", "msg": "Curator must be a signer" },
+    { "code": 6009, "name": "ZeroStake", "msg": "Stake amount must be positive" },
+    { "code": 6010, "name": "WithdrawalCooldown", "msg": "Withdrawal cooldown not elapsed" },
+    { "code": 6011, "name": "ReputationNotFound", "msg": "Reputation account not initialized" },
+    { "code": 6012, "name": "Unauthorized", "msg": "Unauthorized access" },
+    { "code": 6013, "name": "NoRatings", "msg": "No ratings to resolve" },
+    { "code": 6014, "name": "InsufficientCurators", "msg": "Not enough curators for consensus" }
+  ]
+}

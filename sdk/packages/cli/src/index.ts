@@ -11,6 +11,14 @@ import { listCommand } from "./commands/list";
 import { getCommand } from "./commands/get";
 import { mountCommand } from "./commands/mount";
 import { licenseCommand } from "./commands/license";
+import {
+  initCuratorCommand,
+  rateCommand,
+  curatorStakeCommand,
+  curatorInfoCommand,
+  initReputationCommand,
+  promptCurationCommand,
+} from "./commands/curator";
 
 const program = new Command();
 
@@ -60,6 +68,58 @@ program
   .option("-k, --keypair <path>", "Solana keypair path")
   .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
   .action(licenseCommand);
+
+const curatorCommand = program
+  .command("curator")
+  .description("Manage curator staking, ratings, and reputation");
+
+curatorCommand
+  .command("init")
+  .description("Initialize as a curator with stake")
+  .argument("<stake-sol>", "Amount of SOL to stake (minimum 1 SOL)")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(initCuratorCommand);
+
+curatorCommand
+  .command("rate")
+  .description("Rate a prompt (1-5 stars)")
+  .argument("<prompt-address>", "Prompt account public key")
+  .argument("<rating>", "Rating value (1-5)")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("-r, --review <uri>", "Review URI (IPFS or URL)")
+  .action(rateCommand);
+
+curatorCommand
+  .command("stake")
+  .description("Add or withdraw stake")
+  .argument("<action>", "Action: add or withdraw")
+  .argument("<amount-sol>", "Amount of SOL")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(curatorStakeCommand);
+
+curatorCommand
+  .command("info")
+  .description("Show curator and reputation info")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(curatorInfoCommand);
+
+curatorCommand
+  .command("init-rep")
+  .description("Initialize reputation account")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(initReputationCommand);
+
+program
+  .command("curation")
+  .description("View prompt curation stats")
+  .argument("<prompt-address>", "Prompt account public key")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(promptCurationCommand);
 
 program
   .command("init")
@@ -114,6 +174,37 @@ program
     console.log(`  Empty dirs removed: ${result.emptyDirsRemoved}`);
     if (result.errors.length > 0) {
       console.error("  Errors:", result.errors);
+    }
+    process.exit(0);
+  });
+
+program
+  .command("search")
+  .description("Search prompts in the local index")
+  .argument("<query>", "Search query")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("--category <cat>", "Filter by category")
+  .option("--limit <n>", "Max results", "20")
+  .action(async (query: string, options: { rpcUrl: string; category?: string; limit: string }) => {
+    const { PromptSearchIndex } = await import("@promptchain/indexer");
+    const provider = await getProvider(undefined, options.rpcUrl);
+    const client = new PromptChainClient(provider);
+    const { CurationClient } = await import("@promptchain/curation");
+    const curationClient = new CurationClient(provider);
+    const index = new PromptSearchIndex(client, curationClient, provider.connection);
+    await index.indexAll();
+    const results = index.search({
+      text: query,
+      category: options.category,
+      limit: parseInt(options.limit),
+    });
+    console.log(`Found ${results.total} results for "${query}":\n`);
+    for (const entry of results.entries) {
+      console.log(`  [${entry.category}] ${entry.name || "Unnamed"}`);
+      console.log(`    Address: ${entry.publicKey}`);
+      console.log(`    Uses: ${entry.totalUses} | Versions: ${entry.totalVersions}`);
+      console.log(`    Tags: ${entry.tags.join(", ") || "none"}`);
+      console.log();
     }
     process.exit(0);
   });

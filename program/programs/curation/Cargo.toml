@@ -1,0 +1,21 @@
+[package]
+name = "promptchain-curation"
+version = "0.1.0"
+description = "PromptChain Curation Engine - Stake-based quality curation and reputation"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "promptchain_curation"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = ["init-if-needed"]
+idl-build = ["anchor-lang/idl-build"]
+init-if-needed = ["anchor-lang/init-if-needed"]
+
+[dependencies]
+anchor-lang = "0.32.1"
