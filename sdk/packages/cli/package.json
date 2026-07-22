@@ -12,6 +12,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@promptchain/cache": "^0.1.0",
     "@promptchain/client": "^0.1.0",
     "@promptchain/network": "^0.1.0",
     "@promptchain/schema": "^0.1.0",

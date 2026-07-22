@@ -1,0 +1,16 @@
+{
+  "name": "@promptchain/cache",
+  "version": "0.1.0",
+  "description": "PromptChain Caching Layer - L1/L2/L3/L4 cache hierarchy, LRU, SMT invalidation, speculative prefetch, negative cache",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

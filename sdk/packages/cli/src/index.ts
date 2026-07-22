@@ -47,6 +47,14 @@ import {
   nodeFindCommand,
   nodeConnectCommand,
 } from "./commands/network";
+import {
+  cacheStatsCommand,
+  cacheClearCommand,
+  cacheGetCommand,
+  cacheSetCommand,
+  cacheInvalidateCommand,
+  cacheWarmCommand,
+} from "./commands/cache";
 
 const program = new Command();
 
@@ -341,6 +349,45 @@ program
     }
     process.exit(0);
   });
+
+const cacheCommand = program
+  .command("cache")
+  .description("Cache management (Layer 8)");
+
+cacheCommand
+  .command("stats")
+  .description("Show cache hierarchy statistics")
+  .action(cacheStatsCommand);
+
+cacheCommand
+  .command("clear")
+  .description("Clear all cache levels (L1, L2, negative, prefetch)")
+  .action(cacheClearCommand);
+
+cacheCommand
+  .command("get")
+  .description("Get a cached value by key")
+  .argument("<key>", "Cache key")
+  .action(cacheGetCommand);
+
+cacheCommand
+  .command("set")
+  .description("Set a cached value")
+  .argument("<key>", "Cache key")
+  .argument("<value>", "Value to cache")
+  .action(cacheSetCommand);
+
+cacheCommand
+  .command("invalidate")
+  .description("Invalidate a specific cache entry")
+  .argument("<key>", "Cache key to invalidate")
+  .action(cacheInvalidateCommand);
+
+cacheCommand
+  .command("warm")
+  .description("Warm the cache by fetching multiple keys")
+  .argument("<keys>", "Comma-separated list of keys")
+  .action(cacheWarmCommand);
 
 const nodeCommand = program
   .command("node")

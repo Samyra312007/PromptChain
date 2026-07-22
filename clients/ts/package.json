@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@promptchain/cache": "file:../../sdk/packages/cache",
     "@promptchain/network": "file:../../sdk/packages/network",
     "@promptchain/schema": "file:../../sdk/packages/schema",
     "@promptchain/client": "file:../../sdk/packages/client",

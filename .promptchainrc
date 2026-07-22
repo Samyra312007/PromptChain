@@ -45,5 +45,24 @@
       ],
       "turn_servers": []
     }
+  },
+  "cache": {
+    "enabled": true,
+    "l1_max_entries": 10000,
+    "l1_ttl_ms": 300000,
+    "l2_enabled": true,
+    "l2_cache_dir": "./.promptchain/cache",
+    "l2_max_entries": 100000,
+    "l2_ttl_ms": 3600000,
+    "l3_gateway": "https://ipfs.io/ipfs/",
+    "l3_timeout_ms": 10000,
+    "l4_rpc_url": "https://api.devnet.solana.com",
+    "l4_timeout_ms": 30000,
+    "negative_cache_ttl_ms": 60000,
+    "prefetch_enabled": true,
+    "prefetch_max_versions": 5,
+    "prefetch_max_related": 3,
+    "smt_enabled": true,
+    "smt_commitment_interval_ms": 15000
   }
 }

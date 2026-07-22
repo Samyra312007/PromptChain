@@ -422,6 +422,62 @@ export class FullClient {
   async getNodeStatus(node: any): Promise<any> {
     return node.getStatus();
   }
+
+  private _cache: any = null;
+
+  getCache(): any {
+    if (!this._cache) {
+      const { CacheManager } = require('@promptchain/cache');
+      this._cache = new CacheManager({
+        l4: { enabled: true, rpcUrl: this.provider.connection.rpcEndpoint, timeoutMs: 30_000 },
+      });
+      this._cache.setL4Fetcher(async (key: string) => {
+        if (key.startsWith('prompt:')) {
+          const addr = key.slice(7);
+          try {
+            const account = await this.fetchPrompt(new PublicKey(addr));
+            return JSON.stringify(account);
+          } catch { return null; }
+        }
+        if (key.startsWith('license:')) {
+          const addr = key.slice(8);
+          try {
+            const account = await this.fetchLicense(new PublicKey(addr));
+            return JSON.stringify(account);
+          } catch { return null; }
+        }
+        return null;
+      });
+    }
+    return this._cache;
+  }
+
+  async cachedFetch(key: string): Promise<any> {
+    const cache = this.getCache();
+    const result = await cache.get(key);
+    if (!result) return null;
+    try { return JSON.parse(result.value); } catch { return result.value; }
+  }
+
+  async cachedStore(key: string, value: any): Promise<void> {
+    const cache = this.getCache();
+    await cache.set(key, typeof value === 'string' ? value : JSON.stringify(value));
+  }
+
+  async invalidateCache(key: string): Promise<void> {
+    const cache = this.getCache();
+    cache.invalidate(key);
+  }
+
+  async clearCache(): Promise<void> {
+    const cache = this.getCache();
+    cache.clear();
+  }
+
+  getCacheStats(): any {
+    const cache = this.getCache();
+    return cache.getCacheStats();
+  }
 }
 
 function joinPath(...parts: string[]): string {

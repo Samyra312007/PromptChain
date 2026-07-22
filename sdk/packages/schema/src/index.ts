@@ -133,3 +133,25 @@ export const PDA_SEEDS_NETWORK = {
   NODE: Buffer.from('node'),
   DISCOVERY: Buffer.from('discovery'),
 } as const;
+
+export const CACHE_CONSTANTS = {
+  L1_MAX_ENTRIES: 10_000,
+  L1_MAX_SIZE_BYTES: 100 * 1024 * 1024,
+  L1_TTL_MS: 300_000,
+  L2_ENABLED: true,
+  L2_CACHE_DIR: './.promptchain/cache',
+  L2_MAX_ENTRIES: 100_000,
+  L2_TTL_MS: 3_600_000,
+  L3_ENABLED: true,
+  L3_TIMEOUT_MS: 10_000,
+  L4_ENABLED: true,
+  L4_TIMEOUT_MS: 30_000,
+  NEGATIVE_CACHE_ENABLED: true,
+  NEGATIVE_CACHE_TTL_MS: 60_000,
+  PREFETCH_ENABLED: true,
+  PREFETCH_MAX_VERSIONS: 5,
+  PREFETCH_MAX_RELATED: 3,
+  SMT_ENABLED: true,
+  SMT_COMMITMENT_INTERVAL_MS: 15_000,
+  CACHE_HIERARCHY_RULE: 'Never hit L4 for a read that L1-L3 could serve',
+} as const;
