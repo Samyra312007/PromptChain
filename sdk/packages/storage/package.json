@@ -1,0 +1,23 @@
+{
+  "name": "@promptchain/storage",
+  "version": "0.1.0",
+  "description": "PromptChain Storage & Access Layer - PromptFS, IPFS, PromptFile format, garbage collector",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "promptfs": "dist/promptfs-cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@promptchain/schema": "^0.1.0",
+    "@promptchain/client": "^0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

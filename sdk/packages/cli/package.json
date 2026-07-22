@@ -1,0 +1,27 @@
+{
+  "name": "@promptchain/cli",
+  "version": "0.1.0",
+  "description": "PromptChain CLI - publish, list, mount, and manage prompts",
+  "main": "dist/index.js",
+  "bin": {
+    "promptchain": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@promptchain/client": "^0.1.0",
+    "@promptchain/schema": "^0.1.0",
+    "@promptchain/storage": "^0.1.0",
+    "@solana/web3.js": "^1.98.0",
+    "@coral-xyz/anchor": "^0.32.1",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

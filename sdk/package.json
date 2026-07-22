@@ -2,8 +2,8 @@
   "name": "promptchain-sdk",
   "private": true,
   "scripts": {
-    "build": "npm run build -w packages/schema && npm run build -w packages/client",
-    "test": "npm run test -w packages/client",
+    "build": "npm run build -w packages/schema && npm run build -w packages/client && npm run build -w packages/storage && npm run build -w packages/cli",
+    "test": "npm run test -w packages/client && npm run test -w packages/storage && npm run test -w packages/cli",
     "clean": "rm -rf packages/*/dist"
   },
   "workspaces": [

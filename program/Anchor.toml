@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-promptchain = "11111111111111111111111111111111"
+promptchain = "D7zeVCj96CQx1xBEm7EEzVLXw4sNukdykxN7ErmxjF3F"
 
 [provider]
 cluster = "Localnet"

@@ -1,0 +1,23 @@
+{
+  "name": "@promptchain/client-ts",
+  "version": "0.1.0",
+  "description": "PromptChain TypeScript client library - full-featured",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@promptchain/schema": "file:../../sdk/packages/schema",
+    "@promptchain/client": "file:../../sdk/packages/client",
+    "@promptchain/storage": "file:../../sdk/packages/storage",
+    "@solana/web3.js": "^1.98.0",
+    "@coral-xyz/anchor": "^0.32.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
