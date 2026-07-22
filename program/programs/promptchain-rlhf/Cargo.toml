@@ -1,0 +1,20 @@
+[package]
+name = "promptchain-rlhf"
+version = "0.1.0"
+description = "PromptChain RLHF Coordination Layer - distributed human feedback for prompt optimization"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "promptchain_rlhf"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = { version = "0.32.1", features = ["init-if-needed"] }
+anchor-spl = "0.32.1"
+spl-token = "8.0.0"

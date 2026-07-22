@@ -288,6 +288,105 @@ export class FullClient {
   }
 }
 
+  // --- Layer 6: Prompt Compiler ---
+
+  async compilePrompt(
+    prompt: string,
+    modelId?: string,
+    options?: { role?: string; format?: string; all?: boolean }
+  ): Promise<any> {
+    const { PromptCompiler, modelTargets, getTarget } = await import('@promptchain/compiler');
+    const compiler = new PromptCompiler();
+
+    if (options?.all) {
+      const targets = modelTargets.filter((t: any) => t.recommended);
+      return compiler.compileMulti(prompt, targets, options as any);
+    }
+
+    const target = getTarget(modelId || 'gpt-4o');
+    if (!target) throw new Error(`Unknown model: ${modelId}`);
+    return compiler.compile(prompt, target, options as any);
+  }
+
+  // --- Layer 6: ZK Quality Proofs ---
+
+  async createProof(promptCid: string, output: string, modelId?: string): Promise<any> {
+    const { Prover } = await import('@promptchain/zk-proofs');
+    const prover = new Prover({ defaultModel: modelId || 'gpt-4o' });
+    return prover.createProof(promptCid, output);
+  }
+
+  async verifyProof(proof: any): Promise<any> {
+    const { Verifier } = await import('@promptchain/zk-proofs');
+    const verifier = new Verifier();
+    return verifier.verify(proof);
+  }
+
+  async createBatchProof(entries: Array<{ promptCid: string; output: string }>): Promise<any> {
+    const { Prover } = await import('@promptchain/zk-proofs');
+    const prover = new Prover();
+    return prover.createBatchProof(entries);
+  }
+
+  // --- Layer 6: RLHF ---
+
+  async initFeedbackSession(
+    sessionId: number,
+    promptCid: string,
+    modelName: string,
+    maxPreferences: number,
+    rewardPerPreference: number,
+  ): Promise<TransactionSignature> {
+    const { RlhfClient } = await import('@promptchain/rlhf');
+    const client = new RlhfClient(this.provider);
+    return client.initSession(sessionId, promptCid, modelName, maxPreferences, rewardPerPreference);
+  }
+
+  async submitPreference(
+    sessionId: number,
+    preferenceId: number,
+    preferredUri: string,
+    rejectedUri: string,
+    criteria: string,
+  ): Promise<TransactionSignature> {
+    const { RlhfClient } = await import('@promptchain/rlhf');
+    const client = new RlhfClient(this.provider);
+    return client.submitPreference(sessionId, preferenceId, {
+      preferredOutputUri: preferredUri,
+      rejectedOutputUri: rejectedUri,
+      criteria,
+    });
+  }
+
+  async submitRating(
+    sessionId: number,
+    ratingId: number,
+    outputUri: string,
+    ratingValue: number,
+    criteria: string,
+  ): Promise<TransactionSignature> {
+    const { RlhfClient } = await import('@promptchain/rlhf');
+    const client = new RlhfClient(this.provider);
+    return client.submitRating(sessionId, ratingId, {
+      outputUri,
+      ratingValue,
+      criteria,
+    });
+  }
+
+  async claimFeedbackReward(sessionId: number): Promise<TransactionSignature> {
+    const { RlhfClient } = await import('@promptchain/rlhf');
+    const client = new RlhfClient(this.provider);
+    return client.claimReward(this.provider.wallet.publicKey, sessionId);
+  }
+
+  async finalizeFeedbackSession(sessionId: number): Promise<TransactionSignature> {
+    const { RlhfClient } = await import('@promptchain/rlhf');
+    const client = new RlhfClient(this.provider);
+    return client.finalizeSession(sessionId);
+  }
+}
+
 function joinPath(...parts: string[]): string {
   return parts.join("/");
 }

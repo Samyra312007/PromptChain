@@ -6,6 +6,8 @@ export const TOKEN_ECONOMICS_PROGRAM_ID = "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfs
 
 export const GOVERNANCE_PROGRAM_ID = "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu";
 
+export const RLHF_PROGRAM_ID = "HWCLoMcpEYxCmR8VqztWF9YF7wYN7pjpKuZQPs5utrmT";
+
 export interface PromptMetadata {
   name: string;
   description: string;
@@ -54,6 +56,10 @@ export const PDA_SEEDS = {
   PROPOSAL: Buffer.from("proposal"),
   VOTE: Buffer.from("vote"),
   REWARD_CLAIM: Buffer.from("reward_claim"),
+  RLHF_SESSION: Buffer.from("rlhf_session"),
+  RLHF_PREFERENCE: Buffer.from("rlhf_preference"),
+  RLHF_RATING: Buffer.from("rlhf_rating"),
+  RLHF_REWARD: Buffer.from("rlhf_reward"),
 } as const;
 
 export const CURATION_CONSTANTS = {
@@ -88,4 +94,15 @@ export const GOVERNANCE_CONSTANTS = {
   DEFAULT_PASS_THRESHOLD_BP: 5000,
   MAX_DESCRIPTION_LEN: 500,
   MAX_URI_LEN: 200,
+} as const;
+
+export const RLHF_CONSTANTS = {
+  MAX_CID_LEN: 70,
+  MAX_MODEL_NAME_LEN: 50,
+  MAX_URI_LEN: 200,
+  MAX_CRITERIA_LEN: 100,
+  MIN_RATING: 1,
+  MAX_RATING: 5,
+  DEFAULT_REWARD_PER_PREFERENCE: 1_000_000_000,
+  MAX_PREFERENCES_PER_SESSION: 10_000,
 } as const;

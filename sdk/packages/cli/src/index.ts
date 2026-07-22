@@ -34,6 +34,9 @@ import {
   daoExecuteCommand,
   daoInfoCommand,
 } from "./commands/governance";
+import { registerCompileCommand } from "./commands/compile";
+import { registerProveCommand } from "./commands/prove";
+import { registerFeedbackCommand } from "./commands/feedback";
 
 const program = new Command();
 
@@ -328,6 +331,10 @@ program
     }
     process.exit(0);
   });
+
+registerCompileCommand(program);
+registerProveCommand(program);
+registerFeedbackCommand(program);
 
 if (require.main === module) {
   program.parse(process.argv);
