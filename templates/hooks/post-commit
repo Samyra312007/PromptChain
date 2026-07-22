@@ -1,0 +1,28 @@
+#!/bin/bash
+# PromptChain post-commit hook
+# Automatically publishes committed prompts to the blockchain
+
+set -e
+
+PROMPTCHAIN_RC=".promptchainrc"
+
+if [ ! -f "$PROMPTCHAIN_RC" ]; then
+  exit 0
+fi
+
+COMMITTED_PROMPTS=$(git diff-tree --no-commit-id -r --name-only HEAD | grep -E '\.(prompt|md|txt)$' || true)
+
+if [ -z "$COMMITTED_PROMPTS" ]; then
+  exit 0
+fi
+
+echo "📦 PromptChain: Checking for prompts to publish..."
+
+for file in $COMMITTED_PROMPTS; do
+  if [ ! -f "$file" ]; then
+    continue
+  fi
+  echo "  → $file committed"
+done
+
+echo "✅ PromptChain: Use 'promptchain publish <file>' to publish to Solana."

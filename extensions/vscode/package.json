@@ -1,0 +1,94 @@
+{
+  "name": "promptchain-vscode",
+  "displayName": "PromptChain",
+  "description": "PromptChain - Publish, manage, and discover prompts on Solana",
+  "version": "0.1.0",
+  "publisher": "promptchain",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Programming Languages", "Other"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "promptchain.publish",
+        "title": "PromptChain: Publish Prompt"
+      },
+      {
+        "command": "promptchain.listPrompts",
+        "title": "PromptChain: List My Prompts"
+      },
+      {
+        "command": "promptchain.diffPrompt",
+        "title": "PromptChain: Show Prompt Diff"
+      },
+      {
+        "command": "promptchain.forkPrompt",
+        "title": "PromptChain: Fork Prompt"
+      },
+      {
+        "command": "promptchain.setLicense",
+        "title": "PromptChain: Set License"
+      },
+      {
+        "command": "promptchain.refreshExplorer",
+        "title": "PromptChain: Refresh Explorer"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "promptchain",
+          "title": "PromptChain",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "promptchain": [
+        {
+          "id": "promptchain.explorer",
+          "name": "Prompts"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "promptchain.publish",
+          "group": "promptchain"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "promptchain.publish",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./tsconfig.json",
+    "watch": "tsc -watch -p ./tsconfig.json",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "@types/mocha": "^10.0.0",
+    "typescript": "^5.3.0",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "mocha": "^10.2.0",
+    "@vscode/test-electron": "^2.3.0"
+  },
+  "dependencies": {
+    "@promptchain/client": "^0.1.0",
+    "@solana/web3.js": "^2.2.0"
+  }
+}

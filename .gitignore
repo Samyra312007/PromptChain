@@ -1,6 +1,7 @@
 # --- Rust / Cargo ---
-program/target/
+target/
 **/*.rs.bk
+sdk/packages/rust/Cargo.lock
 
 # --- Anchor ---
 program/target/deploy/*.json
@@ -15,8 +16,22 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+sdk/packages/python/.venv/
+sdk/packages/python/__pycache__/
+sdk/packages/python/*.egg-info/
+sdk/packages/python/dist/
+sdk/packages/python/build/
+
 # --- TypeScript build ---
 sdk/packages/*/dist/
+extensions/vscode/out/
+codama/dist/
 *.tsbuildinfo
 
 # --- Environment ---

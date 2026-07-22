@@ -1,0 +1,24 @@
+#!/bin/bash
+# PromptChain prepare-commit-msg hook
+# Enhances commit messages with prompt metadata references
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+if [ "$COMMIT_SOURCE" = "message" ]; then
+  exit 0
+fi
+
+STAGED_PROMPTS=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(prompt|md|txt)$' || true)
+
+if [ -z "$STAGED_PROMPTS" ]; then
+  exit 0
+fi
+
+PROMPT_LINES=""
+for file in $STAGED_PROMPTS; do
+  PROMPT_LINES="$PROMPT_LINES
+prompts: $file"
+done
+
+echo "$PROMPT_LINES" >> "$COMMIT_MSG_FILE"

@@ -42,6 +42,10 @@ cd "$(dirname "$0")/../sdk"
 npm install
 npm run build
 
+echo "=== Generating clients from IDLs ==="
+cd "$(dirname "$0")/.."
+bash scripts/generate-clients.sh
+
 echo "=== Done ==="
 echo "Program deployed to $CLUSTER"
 echo "Program ID: $(grep declare_id ../program/programs/promptchain/src/lib.rs | head -1 | cut -d\" -f2)"

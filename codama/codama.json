@@ -1,0 +1,50 @@
+{
+  "$schema": "https://codama.io/schemas/codama.json",
+  "version": "1.0.0",
+  "projectName": "PromptChain",
+  "programs": [
+    {
+      "name": "promptchain",
+      "idl": "../program/target/idl/promptchain.json",
+      "programId": "D7zeVCj96CQx1xBEm7EEzVLXw4sNukdykxN7ErmxjF3F"
+    },
+    {
+      "name": "promptchain_curation",
+      "idl": "../program/target/idl/promptchain_curation.json",
+      "programId": "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK"
+    },
+    {
+      "name": "promptchain_token_economics",
+      "idl": "../program/target/idl/promptchain_token_economics.json",
+      "programId": "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfsEiyZnJU"
+    },
+    {
+      "name": "promptchain_governance",
+      "idl": "../program/target/idl/promptchain_governance.json",
+      "programId": "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu"
+    }
+  ],
+  "renderers": {
+    "typescript": {
+      "outDir": "../clients/ts/src/generated",
+      "packageName": "@promptchain/codama-clients",
+      "moduleType": "esm",
+      "includeEnums": true,
+      "includeTypes": true,
+      "includeInstructions": true,
+      "includeAccounts": true,
+      "includePrograms": true,
+      "formatCode": true
+    },
+    "rust": {
+      "outDir": "../sdk/packages/rust/src/generated",
+      "crateName": "promptchain-generated",
+      "moduleName": "generated",
+      "includeEnums": true,
+      "includeTypes": true,
+      "includeInstructions": true,
+      "includeAccounts": true,
+      "includePrograms": true
+    }
+  }
+}

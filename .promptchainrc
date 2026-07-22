@@ -1,0 +1,28 @@
+{
+  "rpc_url": "https://api.devnet.solana.com",
+  "program_id": "D7zeVCj96CQx1xBEm7EEzVLXw4sNukdykxN7ErmxjF3F",
+  "curation_program_id": "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK",
+  "token_economics_program_id": "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfsEiyZnJU",
+  "governance_program_id": "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu",
+  "default_license": "CC0-1.0",
+  "hooks": {
+    "pre_commit": true,
+    "post_commit": true
+  },
+  "storage": {
+    "provider": "ipfs",
+    "gateway": "https://ipfs.io/ipfs/"
+  },
+  "publish": {
+    "require_license": false,
+    "auto_metadata": true,
+    "metadata_template": {
+      "name": "",
+      "description": "",
+      "category": "",
+      "tags": [],
+      "language": "en",
+      "task_description": ""
+    }
+  }
+}

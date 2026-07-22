@@ -1,0 +1,40 @@
+name: 'PromptChain Publish'
+description: 'Publish prompts to PromptChain from your CI/CD pipeline'
+author: 'PromptChain'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+
+inputs:
+  rpc_url:
+    description: 'Solana RPC URL'
+    required: false
+    default: 'https://api.devnet.solana.com'
+  keypair:
+    description: 'Base64-encoded Solana keypair for publishing'
+    required: true
+  prompt_file:
+    description: 'Path to the prompt file to publish'
+    required: true
+  metadata_file:
+    description: 'Path to JSON metadata file'
+    required: true
+  license:
+    description: 'License PDA address to attach'
+    required: false
+  network_check:
+    description: 'Verify network connectivity before publishing'
+    required: false
+    default: 'true'
+
+outputs:
+  signature:
+    description: 'Transaction signature of the publish'
+  prompt_pda:
+    description: 'PDA of the published prompt'
+  cid:
+    description: 'Content ID (CID) of the published prompt'
+
+runs:
+  using: 'node22'
+  main: 'dist/index.js'

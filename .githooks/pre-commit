@@ -1,0 +1,58 @@
+#!/bin/bash
+# PromptChain pre-commit hook
+# Validates prompts before commit to ensure they have proper metadata
+
+set -e
+
+echo "🔍 PromptChain: Checking prompts..."
+
+PROMPTCHAIN_RC=".promptchainrc"
+
+if [ ! -f "$PROMPTCHAIN_RC" ]; then
+  echo "⚠️  .promptchainrc not found. Run 'promptchain init' to create one."
+  exit 0
+fi
+
+# Get staged .prompt files
+STAGED_PROMPTS=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(prompt|md|txt)$' || true)
+
+if [ -z "$STAGED_PROMPTS" ]; then
+  echo "✅ No prompt files staged."
+  exit 0
+fi
+
+echo "Found staged prompt files:"
+echo "$STAGED_PROMPTS"
+
+HAS_ERRORS=0
+
+for file in $STAGED_PROMPTS; do
+  if [ ! -f "$file" ]; then
+    continue
+  fi
+
+  # Check file is not empty
+  if [ ! -s "$file" ]; then
+    echo "❌ $file is empty."
+    HAS_ERRORS=1
+    continue
+  fi
+
+  # Check for companion metadata file
+  METADATA_FILE="${file}.meta.json"
+  if [ -f "$METADATA_FILE" ]; then
+    if ! python3 -c "import json; json.load(open('$METADATA_FILE'))" 2>/dev/null; then
+      echo "❌ $METADATA_FILE is not valid JSON."
+      HAS_ERRORS=1
+    fi
+  fi
+
+  echo "✅ $file looks valid."
+done
+
+if [ "$HAS_ERRORS" -eq 1 ]; then
+  echo "❌ PromptChain: Commit blocked due to errors."
+  exit 1
+fi
+
+echo "✅ PromptChain: All checks passed."
