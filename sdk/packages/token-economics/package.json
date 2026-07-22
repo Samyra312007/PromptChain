@@ -1,0 +1,22 @@
+{
+  "name": "@promptchain/token-economics",
+  "version": "0.1.0",
+  "description": "PromptChain Token Economics - $PROMPT token management, staking, vesting, and rewards",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@promptchain/schema": "^0.1.0",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.98.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

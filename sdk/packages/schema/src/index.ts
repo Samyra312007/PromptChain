@@ -2,6 +2,10 @@ export const PROMPTCHAIN_PROGRAM_ID = "D7zeVCj96CQx1xBEm7EEzVLXw4sNukdykxN7Ermxj
 
 export const CURATION_PROGRAM_ID = "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK";
 
+export const TOKEN_ECONOMICS_PROGRAM_ID = "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfsEiyZnJU";
+
+export const GOVERNANCE_PROGRAM_ID = "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu";
+
 export interface PromptMetadata {
   name: string;
   description: string;
@@ -37,6 +41,19 @@ export const PDA_SEEDS = {
   PROMPT_CURATION: Buffer.from("prompt_curation"),
   REPUTATION: Buffer.from("reputation"),
   INDEX_COMMITMENT: Buffer.from("index_commitment"),
+  TOKEN_CONFIG: Buffer.from("token_config"),
+  TOKEN_MINT: Buffer.from("token_mint"),
+  ECOSYSTEM_FUND: Buffer.from("ecosystem_fund"),
+  CREATOR_REWARD_POOL: Buffer.from("creator_reward_pool"),
+  CURATOR_REWARD_POOL: Buffer.from("curator_reward_pool"),
+  STAKE_POSITION: Buffer.from("stake_position"),
+  STAKE_VAULT: Buffer.from("stake_vault"),
+  VESTING: Buffer.from("vesting"),
+  DAO_CONFIG: Buffer.from("dao_config"),
+  MEMBER: Buffer.from("member"),
+  PROPOSAL: Buffer.from("proposal"),
+  VOTE: Buffer.from("vote"),
+  REWARD_CLAIM: Buffer.from("reward_claim"),
 } as const;
 
 export const CURATION_CONSTANTS = {
@@ -49,4 +66,26 @@ export const CURATION_CONSTANTS = {
   SYBIL_WEIGHT_PENALTY_BP: 1000,
   CONSENSUS_STDDEV_BP: 2000,
   MAX_REPUTATION_BP: 10_000,
+} as const;
+
+export const TOKEN_CONSTANTS = {
+  DECIMALS: 9,
+  CAP_TOKENS: 1_000_000_000,
+  YEAR_1_SUPPLY_TOKENS: 100_000_000,
+  EMISSION_PER_YEAR_TOKENS: 50_000_000,
+  ECOSYSTEM_FUND_PCT: 40,
+  CREATOR_REWARDS_PCT: 25,
+  CURATOR_REWARDS_PCT: 15,
+  CORE_CONTRIBUTORS_PCT: 10,
+  PUBLIC_SALE_PCT: 10,
+  YEAR_SECONDS: 31_536_000,
+} as const;
+
+export const GOVERNANCE_CONSTANTS = {
+  DEFAULT_VOTING_PERIOD_SECS: 604_800,
+  DEFAULT_MIN_VOTING_POWER_TOKENS: 1_000_000_000,
+  DEFAULT_QUORUM_BP: 1000,
+  DEFAULT_PASS_THRESHOLD_BP: 5000,
+  MAX_DESCRIPTION_LEN: 500,
+  MAX_URI_LEN: 200,
 } as const;

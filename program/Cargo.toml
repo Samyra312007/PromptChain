@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["programs/promptchain", "programs/curation"]
+members = ["programs/promptchain", "programs/curation", "programs/token-economics", "programs/governance"]
 
 [workspace.package]
 version = "0.1.0"

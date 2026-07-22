@@ -8,6 +8,8 @@ skip-lint = false
 [programs.devnet]
 promptchain = "D7zeVCj96CQx1xBEm7EEzVLXw4sNukdykxN7ErmxjF3F"
 promptchain_curation = "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK"
+promptchain_token_economics = "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfsEiyZnJU"
+promptchain_governance = "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu"
 
 [provider]
 cluster = "Localnet"

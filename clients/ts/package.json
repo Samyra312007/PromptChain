@@ -12,6 +12,8 @@
     "@promptchain/schema": "file:../../sdk/packages/schema",
     "@promptchain/client": "file:../../sdk/packages/client",
     "@promptchain/storage": "file:../../sdk/packages/storage",
+    "@promptchain/token-economics": "file:../../sdk/packages/token-economics",
+    "@promptchain/governance": "file:../../sdk/packages/governance",
     "@solana/web3.js": "^1.98.0",
     "@coral-xyz/anchor": "^0.32.1"
   },

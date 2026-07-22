@@ -1,0 +1,117 @@
+{
+  "address": "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu",
+  "metadata": {
+    "name": "promptchain_governance",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "init_dao",
+      "discriminator": [159, 190, 36, 153, 170, 253, 106, 74],
+      "accounts": [],
+      "args": [
+        { "name": "voting_period_secs", "type": "i64" },
+        { "name": "min_voting_power_tokens", "type": "u64" },
+        { "name": "quorum_bp", "type": "u64" },
+        { "name": "pass_threshold_bp", "type": "u64" }
+      ]
+    },
+    {
+      "name": "init_member",
+      "discriminator": [173, 23, 110, 156, 131, 80, 83, 230],
+      "accounts": [],
+      "args": [
+        { "name": "token_balance", "type": "u64" },
+        { "name": "reputation_bp", "type": "u64" }
+      ]
+    },
+    {
+      "name": "create_proposal",
+      "discriminator": [59, 220, 21, 163, 196, 254, 118, 150],
+      "accounts": [],
+      "args": [
+        { "name": "description", "type": "string" },
+        { "name": "uri", "type": "string" }
+      ]
+    },
+    {
+      "name": "cast_vote",
+      "discriminator": [155, 143, 95, 240, 94, 29, 171, 31],
+      "accounts": [],
+      "args": [
+        { "name": "vote_type", "type": { "defined": { "name": "VoteType" } } }
+      ]
+    },
+    {
+      "name": "execute_proposal",
+      "discriminator": [116, 110, 58, 89, 173, 137, 62, 69],
+      "accounts": [],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DaoConfig",
+      "discriminator": [166, 169, 127, 181, 103, 153, 9, 18]
+    },
+    {
+      "name": "Member",
+      "discriminator": [200, 32, 20, 109, 143, 84, 135, 236]
+    },
+    {
+      "name": "Proposal",
+      "discriminator": [27, 50, 51, 234, 163, 46, 181, 144]
+    },
+    {
+      "name": "Vote",
+      "discriminator": [219, 207, 139, 194, 74, 22, 142, 229]
+    }
+  ],
+  "types": [
+    {
+      "name": "ProposalStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Voting" },
+          { "name": "Passed" },
+          { "name": "Cancelled" },
+          { "name": "Executed" },
+          { "name": "Expired" }
+        ]
+      }
+    },
+    {
+      "name": "VoteType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "For" },
+          { "name": "Against" },
+          { "name": "Abstain" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 7000, "name": "AlreadyInitialized", "msg": "Already initialized" },
+    { "code": 7001, "name": "NotInitialized", "msg": "Not initialized" },
+    { "code": 7002, "name": "Unauthorized", "msg": "Unauthorized access" },
+    { "code": 7003, "name": "ArithmeticOverflow", "msg": "Arithmetic overflow" },
+    { "code": 7004, "name": "ProposalNotFound", "msg": "Proposal not found" },
+    { "code": 7005, "name": "ProposalNotVoting", "msg": "Proposal not in voting state" },
+    { "code": 7006, "name": "ProposalAlreadyExecuted", "msg": "Proposal already executed" },
+    { "code": 7007, "name": "ProposalAlreadyCancelled", "msg": "Proposal already cancelled" },
+    { "code": 7008, "name": "ProposalExpired", "msg": "Proposal has expired" },
+    { "code": 7009, "name": "VotingPeriodNotEnded", "msg": "Voting period has not ended" },
+    { "code": 7010, "name": "AlreadyVoted", "msg": "Already voted on this proposal" },
+    { "code": 7011, "name": "InsufficientVotingPower", "msg": "Minimum voting power not met" },
+    { "code": 7012, "name": "ProposalDidNotPass", "msg": "Proposal did not pass" },
+    { "code": 7013, "name": "QuorumNotReached", "msg": "Quorum not reached" },
+    { "code": 7014, "name": "MemberNotFound", "msg": "Member not found" },
+    { "code": 7015, "name": "MemberAlreadyRegistered", "msg": "Member already registered" },
+    { "code": 7016, "name": "DescriptionTooLong", "msg": "Description too long" },
+    { "code": 7017, "name": "UriTooLong", "msg": "URI too long" }
+  ]
+}

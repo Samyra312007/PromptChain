@@ -19,6 +19,21 @@ import {
   initReputationCommand,
   promptCurationCommand,
 } from "./commands/curator";
+import {
+  tokenInitCommand,
+  tokenStakeCommand,
+  tokenVestingCommand,
+  tokenRewardCommand,
+  tokenInfoCommand,
+} from "./commands/token";
+import {
+  daoInitCommand,
+  daoJoinCommand,
+  daoProposeCommand,
+  daoVoteCommand,
+  daoExecuteCommand,
+  daoInfoCommand,
+} from "./commands/governance";
 
 const program = new Command();
 
@@ -120,6 +135,111 @@ program
   .argument("<prompt-address>", "Prompt account public key")
   .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
   .action(promptCurationCommand);
+
+const tokenCommand = program
+  .command("token")
+  .description("Manage $PROMPT token operations");
+
+tokenCommand
+  .command("init")
+  .description("Initialize $PROMPT token config and mint")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(tokenInitCommand);
+
+tokenCommand
+  .command("stake")
+  .description("Add or withdraw staked $PROMPT tokens")
+  .argument("<action>", "Action: add or withdraw")
+  .argument("<amount>", "Amount of $PROMPT tokens")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(tokenStakeCommand);
+
+tokenCommand
+  .command("vesting")
+  .description("Manage vesting schedules (init or claim)")
+  .argument("<action>", "Action: init or claim")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("-b, --beneficiary <pubkey>", "Beneficiary public key")
+  .option("-a, --amount <amount>", "Total vesting amount in tokens")
+  .option("--cliff <secs>", "Cliff duration in seconds", "31536000")
+  .option("--duration <secs>", "Total vesting duration in seconds", "126144000")
+  .action(tokenVestingCommand);
+
+tokenCommand
+  .command("reward")
+  .description("Claim creator or curator rewards")
+  .argument("<role>", "Role: creator or curator")
+  .argument("<amount>", "Amount of $PROMPT tokens to claim")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(tokenRewardCommand);
+
+tokenCommand
+  .command("info")
+  .description("Show $PROMPT token configuration")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(tokenInfoCommand);
+
+const daoCommand = program
+  .command("dao")
+  .description("Manage DAO governance");
+
+daoCommand
+  .command("init")
+  .description("Initialize DAO configuration")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("--voting-period <secs>", "Voting period in seconds")
+  .option("--min-power <tokens>", "Minimum voting power in tokens")
+  .option("--quorum <bp>", "Quorum basis points")
+  .option("--threshold <bp>", "Pass threshold basis points")
+  .action(daoInitCommand);
+
+daoCommand
+  .command("join")
+  .description("Register as a DAO member")
+  .argument("<token-balance>", "Token balance for voting weight")
+  .argument("<reputation-bp>", "Reputation score in basis points")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(daoJoinCommand);
+
+daoCommand
+  .command("propose")
+  .description("Create a governance proposal")
+  .argument("<description>", "Proposal description")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("--uri <uri>", "Optional URI with proposal details")
+  .action(daoProposeCommand);
+
+daoCommand
+  .command("vote")
+  .description("Vote on a proposal")
+  .argument("<proposal>", "Proposal account public key")
+  .argument("<vote-type>", "Vote: for, against, or abstain")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(daoVoteCommand);
+
+daoCommand
+  .command("execute")
+  .description("Execute a passed proposal")
+  .argument("<proposal>", "Proposal account public key")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(daoExecuteCommand);
+
+daoCommand
+  .command("info")
+  .description("Show DAO configuration and your membership")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(daoInfoCommand);
 
 program
   .command("init")
