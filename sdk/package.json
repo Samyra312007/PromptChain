@@ -2,8 +2,8 @@
   "name": "promptchain-sdk",
   "private": true,
   "scripts": {
-    "build": "npm run build -w packages/schema && npm run build -w packages/client && npm run build -w packages/storage && npm run build -w packages/curation && npm run build -w packages/token-economics && npm run build -w packages/governance && npm run build -w packages/indexer && npm run build -w packages/cli && npm run build -w packages/testing && npm run build -w packages/monitoring && npm run build -w packages/backup",
-    "test": "npm run test -w packages/client && npm run test -w packages/storage && npm run test -w packages/curation && npm run test -w packages/token-economics && npm run test -w packages/governance && npm run test -w packages/indexer && npm run test -w packages/cli && npm run test -w packages/testing && npm run test -w packages/monitoring && npm run test -w packages/backup",
+    "build": "npm run build -w packages/schema && npm run build -w packages/client && npm run build -w packages/storage && npm run build -w packages/curation && npm run build -w packages/token-economics && npm run build -w packages/governance && npm run build -w packages/indexer && npm run build -w packages/cli && npm run build -w packages/testing && npm run build -w packages/monitoring && npm run build -w packages/backup && npm run build -w packages/release",
+    "test": "npm run test -w packages/client && npm run test -w packages/storage && npm run test -w packages/curation && npm run test -w packages/token-economics && npm run test -w packages/governance && npm run test -w packages/indexer && npm run test -w packages/cli && npm run test -w packages/testing && npm run test -w packages/monitoring && npm run test -w packages/backup && npm run test -w packages/release",
     "clean": "rm -rf packages/*/dist"
   },
   "workspaces": [
@@ -22,6 +22,7 @@
     "packages/cli",
     "packages/testing",
     "packages/monitoring",
-    "packages/backup"
+    "packages/backup",
+    "packages/release"
   ]
 }

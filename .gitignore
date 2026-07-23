@@ -57,6 +57,9 @@ Thumbs.db
 validator-ledger/
 test-validator/
 
+# --- Runtime data ---
+**/.promptchain/
+
 # --- Misc ---
 *.log
 out/

@@ -1,0 +1,16 @@
+{
+  "name": "@promptchain/release",
+  "version": "0.1.0",
+  "description": "PromptChain Build & Release Engineering (Layer 12) - version management, build orchestration, release checklist automation, multi-arch CI config generation, publisher",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

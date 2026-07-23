@@ -69,6 +69,15 @@ import {
   backupRecoveryCommand,
   backupScheduleCommand,
 } from "./commands/backup";
+import {
+  releaseVersionCommand,
+  releaseChecklistCommand,
+  releaseBumpCommand,
+  releaseBuildCommand,
+  releaseCiCommand,
+  releaseVersionShowCommand,
+  releasePublishCommand,
+} from "./commands/release";
 
 const program = new Command();
 
@@ -544,6 +553,55 @@ backupCommand
   .argument("<action>", "Action: status, run")
   .option("-s, --source-dir <dir>", "Source prompt directory")
   .action(backupScheduleCommand);
+
+const releaseCmd = program
+  .command("release")
+  .description("Build & release engineering (Layer 12)");
+
+releaseCmd
+  .command("version")
+  .description("Show version consistency across all manifests")
+  .action(releaseVersionShowCommand);
+
+releaseCmd
+  .command("bump")
+  .description("Bump version across all manifests")
+  .argument("<type>", "Bump type: patch, minor, major, prerelease")
+  .option("--dry-run", "Dry run (no changes)")
+  .action(releaseBumpCommand);
+
+releaseCmd
+  .command("build")
+  .description("Build all packages")
+  .option("-t, --target <name>", "Build specific target only")
+  .action(releaseBuildCommand);
+
+releaseCmd
+  .command("checklist")
+  .description("Run release checklist")
+  .option("--version <version>", "Release version")
+  .option("--steps <steps>", "Comma-separated step names to run")
+  .action(releaseChecklistCommand);
+
+releaseCmd
+  .command("publish")
+  .description("Publish packages to registries")
+  .option("--dry-run", "Dry run only")
+  .option("-r, --registry <name>", "Publish to specific registry only (npm, crates.io, pypi, github)")
+  .action(releasePublishCommand);
+
+releaseCmd
+  .command("do")
+  .description("Run full release workflow (bump + build + checklist + publish)")
+  .argument("<bump>", "Bump type: patch, minor, major")
+  .option("--dry-run", "Dry run (no changes)")
+  .option("--skip-publish", "Skip publishing step")
+  .action(releaseVersionCommand);
+
+releaseCmd
+  .command("generate-ci")
+  .description("Generate GitHub Actions CI workflows")
+  .action(releaseCiCommand);
 
 if (require.main === module) {
   program.parse(process.argv);

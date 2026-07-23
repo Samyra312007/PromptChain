@@ -1,0 +1,30 @@
+name: PR Agent
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr-review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install PR Agent
+        run: pip install pr-agent
+      - name: Run PR Agent
+        run: pr_agent --pr_url ${{ github.event.pull_request.html_url }}
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
