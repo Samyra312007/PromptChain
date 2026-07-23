@@ -1,4 +1,4 @@
-export { ModelTarget, modelTargets } from './targets';
+export { ModelTarget, modelTargets, getTarget, getRecommendedTargets } from './targets';
 export {
   CompilationResult,
   CompileOptions,

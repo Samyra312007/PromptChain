@@ -66,7 +66,7 @@ export class PromptCompiler {
     if (options?.includeMetadata) {
       const metadata: Partial<PromptMetadata> = {
         target_model: {
-          provider: target.provider,
+          provider: target.provider as any,
           model_id: target.modelId,
         },
         category: 'compiled',

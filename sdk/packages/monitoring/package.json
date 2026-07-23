@@ -1,0 +1,16 @@
+{
+  "name": "@promptchain/monitoring",
+  "version": "0.1.0",
+  "description": "PromptChain Monitoring & Observability (Layer 10) - OpenTelemetry tracing, kernel-level metrics, network dashboards, alerting rules, health check endpoint",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

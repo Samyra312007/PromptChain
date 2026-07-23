@@ -55,6 +55,11 @@ import {
   cacheInvalidateCommand,
   cacheWarmCommand,
 } from "./commands/cache";
+import {
+  healthCommand,
+  healthPrometheusCommand,
+  monitorStartCommand,
+} from "./commands/health";
 
 const program = new Command();
 
@@ -444,6 +449,30 @@ nodeCommand
   .description("Connect to a peer by multiaddr")
   .argument("<addr>", "Peer multiaddr (e.g. /ip4/1.2.3.4/tcp/9000)")
   .action(nodeConnectCommand);
+
+const healthcmd = program
+  .command("health")
+  .description("Monitoring & observability (Layer 10)");
+
+healthcmd
+  .command("check")
+  .description("Run health check and display subsystem statuses")
+  .action(healthCommand);
+
+healthcmd
+  .command("prometheus")
+  .description("Export metrics in Prometheus text format")
+  .action(healthPrometheusCommand);
+
+const monitorCmd = program
+  .command("monitor")
+  .description("Start the monitoring exporter");
+
+monitorCmd
+  .command("start")
+  .description("Start periodic metric/trace/log export")
+  .option("-i, --interval <ms>", "Export interval in milliseconds", "10000")
+  .action((options: { interval: string }) => monitorStartCommand(options.interval));
 
 registerCompileCommand(program);
 registerProveCommand(program);
