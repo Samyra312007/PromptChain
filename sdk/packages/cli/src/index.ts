@@ -60,6 +60,15 @@ import {
   healthPrometheusCommand,
   monitorStartCommand,
 } from "./commands/health";
+import {
+  backupExportCommand,
+  backupImportCommand,
+  backupArchiveCommand,
+  backupListCommand,
+  backupRestoreCommand,
+  backupRecoveryCommand,
+  backupScheduleCommand,
+} from "./commands/backup";
 
 const program = new Command();
 
@@ -477,6 +486,64 @@ monitorCmd
 registerCompileCommand(program);
 registerProveCommand(program);
 registerFeedbackCommand(program);
+
+const backupCommand = program
+  .command("backup")
+  .description("Backup & disaster recovery (Layer 11)");
+
+backupCommand
+  .command("export")
+  .description("Export prompts to a portable backup archive")
+  .argument("[directory]", "Prompt directory to export", ".")
+  .option("-o, --output <path>", "Output backup file path")
+  .option("--no-versions", "Exclude version history")
+  .option("--no-compress", "Skip gzip compression")
+  .action(backupExportCommand);
+
+backupCommand
+  .command("import")
+  .description("Import and verify a backup archive")
+  .argument("<path>", "Path to backup file")
+  .argument("[output-dir]", "Directory to restore into", ".")
+  .option("--verify", "Verify only, do not restore")
+  .action(backupImportCommand);
+
+backupCommand
+  .command("archive")
+  .description("Create a cold storage archive snapshot")
+  .argument("[directory]", "Prompt directory to archive", ".")
+  .option("-t, --type <type>", "Snapshot type (daily, weekly, monthly)", "daily")
+  .option("-o, --output <dir>", "Archive output directory")
+  .action(backupArchiveCommand);
+
+backupCommand
+  .command("list")
+  .description("List archive snapshots")
+  .option("--archive-dir <dir>", "Archive directory")
+  .action(backupListCommand);
+
+backupCommand
+  .command("restore")
+  .description("Restore from an archive snapshot")
+  .argument("<snapshot-id>", "Snapshot ID to restore from")
+  .argument("<output-dir>", "Directory to restore into")
+  .option("--archive-dir <dir>", "Archive directory")
+  .action(backupRestoreCommand);
+
+backupCommand
+  .command("recovery")
+  .description("Manage recovery wallet configuration")
+  .argument("<action>", "Action: config, status")
+  .option("-a, --address <pubkey>", "Recovery wallet address")
+  .option("-d, --days <n>", "Inactivity days before reclaim")
+  .action(backupRecoveryCommand);
+
+backupCommand
+  .command("schedule")
+  .description("Manage backup schedule")
+  .argument("<action>", "Action: status, run")
+  .option("-s, --source-dir <dir>", "Source prompt directory")
+  .action(backupScheduleCommand);
 
 if (require.main === module) {
   program.parse(process.argv);

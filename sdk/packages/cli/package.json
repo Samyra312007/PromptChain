@@ -20,6 +20,7 @@
     "@promptchain/token-economics": "^0.1.0",
     "@promptchain/governance": "^0.1.0",
     "@promptchain/monitoring": "^0.1.0",
+    "@promptchain/backup": "^0.1.0",
     "@solana/web3.js": "^1.98.0",
     "@coral-xyz/anchor": "^0.32.1",
     "commander": "^12.0.0"
