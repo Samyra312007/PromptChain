@@ -2,8 +2,8 @@
   "name": "promptchain-sdk",
   "private": true,
   "scripts": {
-    "build": "npm run build -w packages/schema && npm run build -w packages/client && npm run build -w packages/storage && npm run build -w packages/curation && npm run build -w packages/token-economics && npm run build -w packages/governance && npm run build -w packages/indexer && npm run build -w packages/cli",
-    "test": "npm run test -w packages/client && npm run test -w packages/storage && npm run test -w packages/curation && npm run test -w packages/token-economics && npm run test -w packages/governance && npm run test -w packages/indexer && npm run test -w packages/cli",
+    "build": "npm run build -w packages/schema && npm run build -w packages/client && npm run build -w packages/storage && npm run build -w packages/curation && npm run build -w packages/token-economics && npm run build -w packages/governance && npm run build -w packages/indexer && npm run build -w packages/cli && npm run build -w packages/testing",
+    "test": "npm run test -w packages/client && npm run test -w packages/storage && npm run test -w packages/curation && npm run test -w packages/token-economics && npm run test -w packages/governance && npm run test -w packages/indexer && npm run test -w packages/cli && npm run test -w packages/testing",
     "clean": "rm -rf packages/*/dist"
   },
   "workspaces": [
@@ -14,6 +14,12 @@
     "packages/token-economics",
     "packages/governance",
     "packages/indexer",
-    "packages/cli"
+    "packages/cache",
+    "packages/network",
+    "packages/compiler",
+    "packages/zk-proofs",
+    "packages/rlhf",
+    "packages/cli",
+    "packages/testing"
   ]
 }
