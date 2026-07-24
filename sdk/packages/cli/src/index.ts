@@ -86,6 +86,12 @@ import {
   releaseVersionShowCommand,
   releasePublishCommand,
 } from "./commands/release";
+import {
+  portabilityExportCommand,
+  portabilityImportCommand,
+  portabilityVerifyCommand,
+  portabilityRestoreCommand,
+} from "./commands/portability";
 
 const program = new Command();
 
@@ -639,6 +645,47 @@ releaseCmd
   .command("generate-ci")
   .description("Generate GitHub Actions CI workflows")
   .action(releaseCiCommand);
+
+const portabilityCmd = program
+  .command("portability")
+  .description("Data portability (Layer 17) - cross-protocol migration, verification, different-wallet restore");
+
+portabilityCmd
+  .command("export")
+  .description("Export prompts to portable .promptpack with licenses and curations")
+  .argument("[directory]", "Prompt directory to export", ".")
+  .option("-o, --output <path>", "Output file path")
+  .option("--no-versions", "Exclude version history")
+  .option("--no-licenses", "Exclude license attachments")
+  .option("--no-curations", "Exclude curation ratings")
+  .option("--no-compress", "Skip gzip compression")
+  .option("--sign-with <address>", "Sign manifest with wallet address")
+  .action(portabilityExportCommand);
+
+portabilityCmd
+  .command("import")
+  .description("Import prompts from PromptBase, FlowGPT, or any prompt collection format")
+  .argument("<path>", "Path to source file or directory")
+  .argument("[output-dir]", "Output directory", ".")
+  .option("-f, --format <format>", "Source format (promptbase-csv, flowgpt-json, generic-json, auto)", "auto")
+  .option("--new-authority <address>", "Restore to a different wallet authority")
+  .option("--overwrite", "Overwrite existing files")
+  .action(portabilityImportCommand);
+
+portabilityCmd
+  .command("verify")
+  .description("Verify a .promptpack archive — checks signatures, recomputes CIDs, reports corruption")
+  .argument("<path>", "Path to .promptpack file")
+  .action(portabilityVerifyCommand);
+
+portabilityCmd
+  .command("restore")
+  .description("Restore a promptpack to a different wallet (new authority)")
+  .argument("<archive>", "Path to .promptpack file")
+  .argument("<output-dir>", "Output directory")
+  .argument("<new-authority>", "New wallet authority address")
+  .option("--overwrite", "Overwrite existing files")
+  .action(portabilityRestoreCommand);
 
 if (require.main === module) {
   program.parse(process.argv);

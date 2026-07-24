@@ -21,6 +21,7 @@
     "@promptchain/governance": "^0.1.0",
     "@promptchain/monitoring": "^0.1.0",
     "@promptchain/backup": "^0.1.0",
+    "@promptchain/portability": "^0.1.0",
     "@promptchain/release": "^0.1.0",
     "@solana/web3.js": "^1.98.0",
     "@coral-xyz/anchor": "^0.32.1",
