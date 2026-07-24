@@ -8,9 +8,15 @@ export const GOVERNANCE_PROGRAM_ID = "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73t
 
 export const RLHF_PROGRAM_ID = "HWCLoMcpEYxCmR8VqztWF9YF7wYN7pjpKuZQPs5utrmT";
 
+export interface LocalizedString {
+  [lang: string]: string;
+}
+
 export interface PromptMetadata {
   name: string;
+  name_i18n?: LocalizedString;
   description: string;
+  description_i18n?: LocalizedString;
   prompt_text: string;
   target_model?: {
     provider: "openai" | "anthropic" | "google" | "meta" | "mistral" | "other";
@@ -27,12 +33,47 @@ export interface PromptMetadata {
   category: string;
   tags: string[];
   task_description: string;
+  task_description_i18n?: LocalizedString;
   changelog?: string;
+  changelog_i18n?: LocalizedString;
   fork_of?: string;
   created_at: string;
   updated_at: string;
   language: string;
 }
+
+export const SUPPORTED_LANGUAGES = [
+  "en", "zh", "es", "ar", "hi", "pt", "ru", "ja", "ko", "fr", "de", "tr", "vi", "th", "it", "pl", "nl", "sv", "da", "fi",
+] as const;
+
+export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
+
+export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
+  en: "English",
+  zh: "中文 (Chinese)",
+  es: "Español (Spanish)",
+  ar: "العربية (Arabic)",
+  hi: "हिन्दी (Hindi)",
+  pt: "Português (Portuguese)",
+  ru: "Русский (Russian)",
+  ja: "日本語 (Japanese)",
+  ko: "한국어 (Korean)",
+  fr: "Français (French)",
+  de: "Deutsch (German)",
+  tr: "Türkçe (Turkish)",
+  vi: "Tiếng Việt (Vietnamese)",
+  th: "ไทย (Thai)",
+  it: "Italiano (Italian)",
+  pl: "Polski (Polish)",
+  nl: "Nederlands (Dutch)",
+  sv: "Svenska (Swedish)",
+  da: "Dansk (Danish)",
+  fi: "Suomi (Finnish)",
+};
+
+export const RTL_LANGUAGES: Set<string> = new Set(["ar", "he", "ur", "fa", "yi"]);
+
+export const TRANSLATION_DAO_PROGRAM_ID = "8zYp2wQkLx7a3bCdEfGhIjKlMnOpQrStUvWxYz12345";
 
 export const PDA_SEEDS = {
   PROMPT: Buffer.from("prompt"),

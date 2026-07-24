@@ -6,6 +6,8 @@ import { PromptChainClient } from "@promptchain/client";
 import { readFile, writeFile, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
+import { I18nEngine } from "@promptchain/i18n";
+import { parseLangFlag, setCliLang, getCliI18n } from "@promptchain/i18n/cli-i18n";
 import { publishCommand } from "./commands/publish";
 import { listCommand } from "./commands/list";
 import { getCommand } from "./commands/get";
@@ -81,10 +83,22 @@ import {
 
 const program = new Command();
 
+let cliLang: string | undefined;
+
 program
   .name("promptchain")
   .description("PromptChain CLI - manage AI prompts on Solana")
   .version("0.1.0");
+
+program
+  .option("--lang <code>", "Language code for localized output (en, zh, es, ar, hi, pt, ru, ja, ko, fr, de)", parseLangFlag)
+  .hook("preAction", (thisCmd) => {
+    const opts = thisCmd.optsWithGlobals();
+    if (opts.lang) {
+      cliLang = opts.lang;
+      setCliLang(parseLangFlag(opts.lang));
+    }
+  });
 
 program
   .command("publish")

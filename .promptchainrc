@@ -46,6 +46,15 @@
       "turn_servers": []
     }
   },
+  "i18n": {
+    "lang": "en",
+    "fallback_lang": "en",
+    "supported_languages": ["en", "zh", "es", "ar", "hi", "pt", "ru", "ja", "ko", "fr", "de", "tr", "vi", "th", "it", "pl", "nl", "sv", "da", "fi"],
+    "rtl_languages": ["ar", "he", "ur", "fa", "yi"],
+    "unicode_normalization": "NFC",
+    "enable_translation_dao": true,
+    "translation_dao_program_id": "8zYp2wQkLx7a3bCdEfGhIjKlMnOpQrStUvWxYz12345"
+  },
   "cache": {
     "enabled": true,
     "l1_max_entries": 10000,

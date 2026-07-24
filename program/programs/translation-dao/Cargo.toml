@@ -1,0 +1,15 @@
+[package]
+name = "promptchain-translation-dao"
+version = "0.1.0"
+description = "Translation DAO — on-chain attribution for metadata translators"
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "promptchain_translation_dao"
+crate-type = ["lib"]
+path = "src/lib.rs"
+
+[dependencies]
+anchor-lang = "0.32.1"
+anchor-spl = "0.32.1"

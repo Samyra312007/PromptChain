@@ -10,6 +10,14 @@ build-sdk:
 	@echo "=== Building SDK (TypeScript packages) ==="
 	cd sdk && npm install && npm run build
 
+build-i18n:
+	@echo "=== Building i18n package ==="
+	cd sdk/packages/i18n && npm install && npm run build
+
+test-i18n:
+	@echo "=== Testing i18n package ==="
+	cd sdk/packages/i18n && npm test
+
 build-program:
 	@echo "=== Building Solana programs ==="
 	cd program && make build
@@ -27,7 +35,7 @@ build-extension:
 	cd extensions/vscode && npm install && npm run package
 
 # ── Test ───────────────────────────────────────────────
-test: test-sdk test-program test-python test-release
+test: test-sdk test-program test-python test-release test-i18n
 
 test-sdk:
 	@echo "=== Testing SDK ==="

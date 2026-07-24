@@ -1,0 +1,19 @@
+{
+  "name": "@promptchain/i18n",
+  "version": "0.1.0",
+  "description": "Internationalization & localization for PromptChain — multilingual metadata, error messages, NFC normalization, CJK grapheme handling",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@promptchain/schema": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

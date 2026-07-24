@@ -6,6 +6,7 @@ members = [
     "programs/token-economics",
     "programs/governance",
     "programs/promptchain-rlhf",
+    "programs/translation-dao",
 ]
 
 [workspace.package]

@@ -15,7 +15,8 @@ export interface PromptFile {
 }
 
 export function computeCid(content: string): string {
-  return createHash("sha256").update(content, "utf8").digest("hex");
+  const normalized = content.normalize("NFC");
+  return createHash("sha256").update(normalized, "utf8").digest("hex");
 }
 
 export function promptFilePath(directory: string, name: string): string {

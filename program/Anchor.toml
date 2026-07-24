@@ -11,6 +11,7 @@ promptchain_curation = "2eWqZR6HriWjKJs5MozSZKERxP98JM7FEwn8FA7Hh1cK"
 promptchain_token_economics = "8mNqGqRJSkix3yCskAQBfTBhTyWMzYGMFmnfsEiyZnJU"
 promptchain_governance = "HvNzxKHRDNHMqeYRv5GPo2oV5fQABRPVLZMFMBE73tvu"
 promptchain_rlhf = "HWCLoMcpEYxCmR8VqztWF9YF7wYN7pjpKuZQPs5utrmT"
+promptchain_translation_dao = "8zYp2wQkLx7a3bCdEfGhIjKlMnOpQrStUvWxYz12345"
 
 [provider]
 cluster = "Localnet"

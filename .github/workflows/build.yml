@@ -161,6 +161,26 @@ jobs:
             done
           echo "All tutorials present"
 
+  i18n-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install i18n dependencies
+        run: npm ci
+        working-directory: sdk/packages/i18n
+      - name: Build i18n package
+        run: npm run build
+        working-directory: sdk/packages/i18n
+      - name: Run i18n tests
+        run: npm test
+        working-directory: sdk/packages/i18n
+
   vscode-extension:
     runs-on: ubuntu-latest
 

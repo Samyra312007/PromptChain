@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { PromptChainClient } from "@promptchain/client";
 import { getProvider } from "../index";
+import { getCliI18n } from "@promptchain/i18n/cli-i18n";
 
 export async function publishCommand(
   file: string,
@@ -8,6 +9,7 @@ export async function publishCommand(
 ): Promise<void> {
   try {
     const { readPromptFile, computeCid } = await import("@promptchain/storage");
+    const i18n = getCliI18n();
 
     const provider = await getProvider(options.keypair, options.rpcUrl);
     const client = new PromptChainClient(provider);
@@ -31,14 +33,13 @@ export async function publishCommand(
       await import("@promptchain/client")
     ).findPromptPda(authority, cid);
 
-    console.log("Published prompt!");
-    console.log("  CID:", cid);
-    console.log("  Prompt PDA:", promptPda[0].toBase58());
-    console.log("  Signature:", sig);
+    console.log(i18n.t("cli.publish.success", { cid }));
     console.log("  Name:", promptFile.metadata.name);
     console.log("  Category:", promptFile.metadata.category);
+    console.log("  Signature:", sig);
   } catch (err) {
-    console.error("Failed to publish:", err instanceof Error ? err.message : err);
+    const i18n = getCliI18n();
+    console.error(i18n.t("cli.publish.error", { error: err instanceof Error ? err.message : String(err) }));
     process.exit(1);
   }
 }
