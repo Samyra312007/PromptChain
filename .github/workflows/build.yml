@@ -129,6 +129,38 @@ jobs:
       - name: Verify no uncommitted changes
         run: git diff --exit-code
 
+  documentation-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check doc comments
+        run: bash docs/scripts/check-doc-comments.sh
+      - name: Verify RFC format
+        run: |
+          for rfc in docs/rfc/0*.md; do
+            if ! grep -q "^# RFC-" "$rfc"; then
+              echo "ERROR: $rfc missing RFC header"
+              exit 1
+            fi
+          done
+          echo "All RFCs valid"
+      - name: Verify tutorial structure
+        run: |
+          expected=("01-hello-prompt" "02-prompt-engineer" "03-protocol-developer")
+            for tut in "${expected[@]}"; do
+              if [ ! -f "docs/tutorials/$tut.md" ]; then
+                echo "ERROR: Missing tutorial docs/tutorials/$tut.md"
+                exit 1
+              fi
+            done
+          echo "All tutorials present"
+
   vscode-extension:
     runs-on: ubuntu-latest
 

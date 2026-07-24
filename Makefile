@@ -58,8 +58,19 @@ lint:
 lint-fix:
 	cd sdk && npm run lint -- --fix 2>/dev/null || echo "No lint --fix available"
 
-# ── Check (lint + test + build) ────────────────────────
-check: lint test build
+# ── Documentation ──────────────────────────────────────
+docs: docs-check docs-generate
+
+docs-check:
+	@echo "=== Checking doc comments ==="
+	@bash docs/scripts/check-doc-comments.sh
+
+docs-generate:
+	@echo "=== Generating API documentation ==="
+	@bash docs/scripts/generate-api-docs.sh
+
+# ── Check (lint + test + build + docs) ─────────────────
+check: lint test build docs-check
 
 # ── Clean ──────────────────────────────────────────────
 clean:
