@@ -92,6 +92,16 @@ import {
   portabilityVerifyCommand,
   portabilityRestoreCommand,
 } from "./commands/portability";
+import {
+  identityStatusCommand,
+  identityReputationCommand,
+  identityCredentialCreateCommand,
+  identityCredentialVerifyCommand,
+  identitySoulboundIssueCommand,
+  identitySoulboundCheckCommand,
+  identityDelegateCommand,
+  identityDelegateRevokeCommand,
+} from "./commands/identity";
 
 const program = new Command();
 
@@ -686,6 +696,89 @@ portabilityCmd
   .argument("<new-authority>", "New wallet authority address")
   .option("--overwrite", "Overwrite existing files")
   .action(portabilityRestoreCommand);
+
+const identityCmd = program
+  .command("identity")
+  .description("Identity & Reputation System (Layer 18) - soulbound reputation, verifiable credentials, delegated wallet identity");
+
+identityCmd
+  .command("status")
+  .description("Show identity profile with reputation, credentials, and delegations")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("-w, --wallet <address>", "Wallet address to inspect")
+  .action(identityStatusCommand);
+
+identityCmd
+  .command("reputation")
+  .description("Show reputation formula and compute scores")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(identityReputationCommand);
+
+const credentialCmd = identityCmd
+  .command("credential")
+  .description("Manage W3C Verifiable Credentials");
+
+credentialCmd
+  .command("create")
+  .description("Create and sign a verifiable credential")
+  .argument("<subject>", "Subject wallet address")
+  .argument("<type>", "Credential type (e.g. PromptChainReputation)")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("-a, --attr <kv...>", "Attributes as key=value pairs")
+  .action(identityCredentialCreateCommand);
+
+credentialCmd
+  .command("verify")
+  .description("Verify a verifiable credential JSON")
+  .argument("<credential-json>", "Credential JSON string")
+  .action(identityCredentialVerifyCommand);
+
+const soulboundCmd = identityCmd
+  .command("soulbound")
+  .description("Manage soulbound attestations (non-transferable reputation markers)");
+
+soulboundCmd
+  .command("issue")
+  .description("Issue a soulbound attestation")
+  .argument("<subject>", "Subject wallet address")
+  .argument("<type>", "Attestation type (e.g. PromptChainCurator)")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("-a, --attr <kv...>", "Attributes as key=value pairs")
+  .option("--expires-in <days>", "Expiration in days")
+  .action(identitySoulboundIssueCommand);
+
+soulboundCmd
+  .command("check")
+  .description("Check soulbound attestations for a wallet")
+  .argument("<subject>", "Subject wallet address")
+  .argument("[type]", "Optional credential type filter")
+  .action(identitySoulboundCheckCommand);
+
+const delegateCmd = identityCmd
+  .command("delegate")
+  .description("Manage delegated identity (hot/cold wallet pattern)");
+
+delegateCmd
+  .command("setup")
+  .description("Delegate permissions from cold wallet to hot wallet")
+  .argument("<hot-wallet>", "Hot wallet address")
+  .argument("<permissions>", "Comma-separated permissions (e.g. publish,rate,stake)")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .option("--expires-in <days>", "Delegation expiry in days")
+  .action(identityDelegateCommand);
+
+delegateCmd
+  .command("revoke")
+  .description("Revoke a delegated identity")
+  .argument("<hot-wallet>", "Hot wallet address")
+  .option("-k, --keypair <path>", "Solana keypair path")
+  .option("-u, --rpc-url <url>", "Solana RPC URL", "http://127.0.0.1:8899")
+  .action(identityDelegateRevokeCommand);
 
 if (require.main === module) {
   program.parse(process.argv);
