@@ -18,6 +18,14 @@ test-i18n:
 	@echo "=== Testing i18n package ==="
 	cd sdk/packages/i18n && npm test
 
+build-a11y:
+	@echo "=== Building a11y package ==="
+	cd sdk/packages/a11y && npm install && npm run build
+
+test-a11y:
+	@echo "=== Testing a11y package ==="
+	cd sdk/packages/a11y && npm test
+
 build-program:
 	@echo "=== Building Solana programs ==="
 	cd program && make build
@@ -35,7 +43,7 @@ build-extension:
 	cd extensions/vscode && npm install && npm run package
 
 # ── Test ───────────────────────────────────────────────
-test: test-sdk test-program test-python test-release test-i18n
+test: test-sdk test-program test-python test-release test-i18n test-a11y
 
 test-sdk:
 	@echo "=== Testing SDK ==="

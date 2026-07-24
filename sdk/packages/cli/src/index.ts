@@ -8,6 +8,12 @@ import { join } from "path";
 import { homedir } from "os";
 import { I18nEngine } from "@promptchain/i18n";
 import { parseLangFlag, setCliLang, getCliI18n } from "@promptchain/i18n/cli-i18n";
+import {
+  LowBandwidthMode,
+  ColorContrast,
+  AccessibleOutput,
+  type OutputFormat,
+} from "@promptchain/a11y";
 import { publishCommand } from "./commands/publish";
 import { listCommand } from "./commands/list";
 import { getCommand } from "./commands/get";
@@ -84,6 +90,9 @@ import {
 const program = new Command();
 
 let cliLang: string | undefined;
+let lowBandwidth: LowBandwidthMode;
+let colorContrast: ColorContrast;
+let accessibleOutput: AccessibleOutput;
 
 program
   .name("promptchain")
@@ -92,12 +101,26 @@ program
 
 program
   .option("--lang <code>", "Language code for localized output (en, zh, es, ar, hi, pt, ru, ja, ko, fr, de)", parseLangFlag)
+  .option("--no-color", "Disable ANSI color output")
+  .option("--low-bandwidth", "Enable low-bandwidth mode (text-only, <100KB)")
+  .option("--text-only", "Alias for --low-bandwidth")
+  .option("--json", "Output in JSON format (machine-readable)")
+  .option("--screen-reader", "Output in screen-reader-friendly format")
+  .option("--quiet", "Suppress non-critical output")
   .hook("preAction", (thisCmd) => {
     const opts = thisCmd.optsWithGlobals();
     if (opts.lang) {
       cliLang = opts.lang;
       setCliLang(parseLangFlag(opts.lang));
     }
+    lowBandwidth = new LowBandwidthMode({ enabled: !!(opts.lowBandwidth || opts.textOnly) });
+    colorContrast = new ColorContrast({
+      ansiColors: opts.color ?? ColorContrast.detectAnsiSupport(),
+    });
+    const fmt: OutputFormat = opts.json ? 'json' :
+      opts.screenReader ? 'screen-reader' :
+      opts.quiet ? 'quiet' : 'text';
+    accessibleOutput = new AccessibleOutput(fmt);
   });
 
 program

@@ -1,0 +1,19 @@
+{
+  "name": "@promptchain/a11y",
+  "version": "0.1.0",
+  "description": "Accessibility & universal access for PromptChain — low-bandwidth mode, screen reader support, offline capability, color contrast, keyboard navigation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@promptchain/schema": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

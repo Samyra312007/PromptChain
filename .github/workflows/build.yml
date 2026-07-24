@@ -181,6 +181,26 @@ jobs:
         run: npm test
         working-directory: sdk/packages/i18n
 
+  a11y-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install a11y dependencies
+        run: npm ci
+        working-directory: sdk/packages/a11y
+      - name: Build a11y package
+        run: npm run build
+        working-directory: sdk/packages/a11y
+      - name: Run a11y tests
+        run: npm test
+        working-directory: sdk/packages/a11y
+
   vscode-extension:
     runs-on: ubuntu-latest
 
